@@ -32,6 +32,7 @@ func (t *Record)Add(duration time.Duration,status string){
 		if t.statusMap == nil {
 			t.statusMap = make(map[string]uint64)
 		}
+
 		if n,ok:=t.statusMap[status];ok {
 			t.statusMap[status] = n + 1
 		} else {
@@ -55,7 +56,7 @@ func (t *Record)Get()*Res{
 
 	if t.statusMap != nil {
 		res.M = t.statusMap
-		t.statusMap = nil
+		t.statusMap = make(map[string]uint64)
 	}
 	return res
 }
@@ -150,7 +151,6 @@ var DefaultTracer *Tracer
 var CBFunc = func(res map[string]*Res) {
 	for k,v:= range res {
 		buf := bytes.NewBufferString("")
-		fmt.Fprintln(buf,"---------------------------------------------\n")
 		fmt.Fprintf(buf,"[%s] 平均耗时 %d ms 执行次数 %d 总耗时 %f s ",k,v.D.Milliseconds(),v.C,v.S.Seconds())
 		if v.M != nil {
 			fmt.Fprintf(buf," |状态:")
@@ -160,6 +160,7 @@ var CBFunc = func(res map[string]*Res) {
 		}
 		logger.Println(buf.String())
 	}
+	logger.Println("-------------------------------------------------------------------------")
 }
 
 func init()  {
