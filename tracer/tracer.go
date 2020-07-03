@@ -111,12 +111,12 @@ func (t *Tracer)run()  {
 		case "_cb":
 			t.callBack()
 		default:
-			timer,ok:=t.tm[act.Name]
+			record,ok:=t.tm[act.Name]
 			if !ok {
-				timer = &Record{}
-				t.tm[act.Name] = timer
+				record = &Record{}
+				t.tm[act.Name] = record
 			}
-			timer.Add(act.End.Sub(act.Start),act.Status)
+			record.Add(act.End.Sub(act.Start),act.Status)
 
 			t.actp.Put(act)
 		}
@@ -149,7 +149,8 @@ var logger *log.Logger
 var DefaultTracer *Tracer
 var CBFunc = func(res map[string]*Res) {
 	for k,v:= range res {
-		buf := bytes.NewBufferString("-----------------------------------------------------------------------------\n")
+		buf := bytes.NewBufferString("")
+		fmt.Fprintln(buf,"---------------------------------------------\n")
 		fmt.Fprintf(buf,"[%s] 平均耗时 %d ms 执行次数 %d 总耗时 %f s ",k,v.D.Milliseconds(),v.C,v.S.Seconds())
 		if v.M != nil {
 			fmt.Fprintf(buf," |状态:")
