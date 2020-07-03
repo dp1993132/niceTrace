@@ -146,7 +146,7 @@ func (t *Tracer)PushAction(action *Action) bool {
 
 var logger *log.Logger
 
-var DefaultTrancer *Tracer
+var DefaultTracer *Tracer
 var CBFunc = func(res map[string]*Res) {
 	for k,v:= range res {
 		buf := bytes.NewBufferString("")
@@ -167,5 +167,5 @@ func init()  {
 		return
 	}
 	logger = log.New(fl,"[trace]",log.Ldate|log.Ltime)
-	DefaultTrancer = NewTracer(10000, CBFunc)
+	DefaultTracer = NewTracer(10000, CBFunc)
 }
