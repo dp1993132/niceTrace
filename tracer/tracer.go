@@ -149,10 +149,10 @@ var logger *log.Logger
 var DefaultTracer *Tracer
 var CBFunc = func(res map[string]*Res) {
 	for k,v:= range res {
-		buf := bytes.NewBufferString("")
-		fmt.Fprintf(buf,"[%s] 平均耗时 %d ms 执行次数 %d 总耗时 %f s |",k,v.D.Milliseconds(),v.C,v.S.Seconds())
+		buf := bytes.NewBufferString("-----------------------------------------------------------------------------\n")
+		fmt.Fprintf(buf,"[%s] 平均耗时 %d ms 执行次数 %d 总耗时 %f s ",k,v.D.Milliseconds(),v.C,v.S.Seconds())
 		if v.M != nil {
-			fmt.Fprintf(buf," 状态:")
+			fmt.Fprintf(buf," |状态:")
 			for mk,mv:=range v.M {
 				fmt.Fprintf(buf,"(%s:%d)",mk,mv)
 			}
