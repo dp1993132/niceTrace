@@ -29,9 +29,10 @@ func (t *Record)Add(duration time.Duration,status string){
 	t.Duration+=duration
 
 	if status != "" {
-		if t.statusMap == nil {
+		defer func() {
+			recover()
 			t.statusMap = make(map[string]uint64)
-		}
+		}()
 
 		if n,ok:=t.statusMap[status];ok {
 			t.statusMap[status] = n + 1
